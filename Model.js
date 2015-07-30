@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost/myLocation');
 var UserLocationsSchema = new mongoose.Schema({
     username: String,
     location: String,
-    date: { type: Date, default: Date.now }
+    date: String,
 });
 // Mongoose Model definition
 var UserLocations = mongoose.model('user_locations', UserLocationsSchema);
