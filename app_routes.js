@@ -1,18 +1,6 @@
-// Mongoose import
-var mongoose = require('mongoose');
-var db = mongoose.connection;
-
-db.on('error', console.error);
-mongoose.connect('mongodb://localhost/myLocation');
-// Mongoose Schema definition
-var UserLocationsSchema = new mongoose.Schema({
-    username: String,
-    location: String,
-    date: { type: Date, default: Date.now }
-});
-// Mongoose Model definition
-var UserLocations = mongoose.model('user_locations', UserLocationsSchema);
+var UserLocations = require('./Model').UserLocations;
 module.exports = function(app){
+    //Save the location os user by username and location
     app.get('/saveLocation', function (req, res) {
         var username = req.query.username;
         var location = req.query.location;
@@ -37,6 +25,7 @@ module.exports = function(app){
             res.json({status: 403, message: 'No username or location'});
         }
     });
+    //get location data by username or location or both
     app.get('/getLocations', function (req, res) {
         console.log(req.query);
         var username = (req.query.username)?req.query.username:'';
@@ -55,5 +44,8 @@ module.exports = function(app){
                 res.json({status:200, data: docs});
             }
         });
+    });
+    app.get('/', function (req, res){
+        res.send('Connected');
     });
 };
